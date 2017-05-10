@@ -1,4 +1,5 @@
 import org.apache.commons.cli.*;
+import org.apache.commons.cli.DefaultParser; 
 import soot.*;
 import soot.jimple.infoflow.android.SetupApplication;
 import soot.jimple.infoflow.entryPointCreators.AndroidEntryPointCreator;

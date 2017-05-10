@@ -1,8 +1,8 @@
-import soot.PackManager;
-import soot.Scene;
-import soot.SootMethod;
+import soot.*;
 import soot.jimple.toolkits.callgraph.CallGraph;
 import soot.jimple.toolkits.callgraph.Edge;
+import soot.toolkits.graph.ExceptionalUnitGraph;
+import soot.toolkits.graph.UnitGraph;
 
 import java.io.*;
 import java.text.SimpleDateFormat;
@@ -44,6 +44,39 @@ public class Util {
             Edge edge = edgeItr.next();
 
             SootMethod srcMethod = edge.getSrc().method();
+            
+            //SootMethod is obtained create UnitGraph and iterate over it.
+            //Using In out statement
+            //////////////////////////////////////////////////////////////////
+            ps.println("--------------------------------------------");
+            ps.println("Analysis of method " + srcMethod.getName() + " :");
+            ps.println("--------------------------------------------\n");
+            Body b = srcMethod.retrieveActiveBody();
+            UnitGraph g = new ExceptionalUnitGraph(b);
+
+           GetInOut getio = new GetInOut(g);
+
+            Iterator i = g.iterator();
+            while(i.hasNext()){
+                Unit u = (Unit) i.next();
+                List IN = getio.getInOutBefore(u);
+                List OUT = getio.getInOutAfter(u);
+
+                ps.print("IN : ");
+                ps.println(IN.toString());
+                ps.print("Statement : ");
+                ps.println(u.toString());
+                ps.print("Out : ");
+                ps.println(OUT.toString()+"\n");
+            }
+            
+            
+            
+            
+            
+            
+            
+            ///////////////////////////////////////////////////////////////////
             String srcMethodDeclaration = srcMethod.getDeclaringClass().toString() + "." +
                     srcMethod.getName() +
                     srcMethod.getParameterTypes().toString()
@@ -56,11 +89,13 @@ public class Util {
                             .replace('[', '(').replace(']', ')');
 
             edgeList.add(srcMethodDeclaration + " => " + tgtMethodDeclaration);
+            ps.println(srcMethodDeclaration + " => " + tgtMethodDeclaration);
             //System.out.println(srcMethodDeclaration + " => " + tgtMethodDeclaration);
+           
         }
         //System.out.println(applicationCallGraph.size());
-        for (String edgeStr : edgeList){
-            ps.println(edgeStr);
-        }
+//        for (String edgeStr : edgeList){
+//            ps.println(edgeStr);
+//        }
     }
 }

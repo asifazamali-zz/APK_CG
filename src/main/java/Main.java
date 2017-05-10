@@ -14,7 +14,7 @@ public class Main {
 
         generateCGForAPK(
                 // TODO @Yuxuan, replace this with your APK path
-                "/home/liyc/temp/apk_samples/com.aws.android.apk",
+                "/home/asif/MTP/Experiments/APK_CG/APK_CG/HelloWorld.apk",
                 "output",
                 "android.jar");
 
